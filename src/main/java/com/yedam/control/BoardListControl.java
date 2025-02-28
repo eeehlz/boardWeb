@@ -32,7 +32,7 @@ public class BoardListControl implements Control {
 
 		// SearchVO : 파라미터.
 		SearchVO search = new SearchVO(Integer.parseInt(page), sc, kw);
-		
+
 		String name = "홍길동";
 		// boardList.do -> (BoardListControl) -> boardList.jsp
 		req.setAttribute("msg", name);

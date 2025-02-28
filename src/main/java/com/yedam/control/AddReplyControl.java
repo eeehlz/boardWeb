@@ -1,6 +1,7 @@
 package com.yedam.control;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -13,7 +14,6 @@ import org.apache.ibatis.session.SqlSession;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.yedam.common.DataSource;
-import com.yedam.dao.ReplyDAO;
 import com.yedam.mapper.ReplyMapper;
 import com.yedam.vo.ReplyVO;
 
@@ -32,12 +32,12 @@ public class AddReplyControl implements Control {
 		rvo.setBoardNo(Integer.parseInt(bno));
 		rvo.setReply(reply);
 		rvo.setReplyer(replyer);
-		
+		rvo.setReplyDate(new Date());
 		// DB 반영.
 		//ReplyDAO rdao = new ReplyDAO();
 		SqlSession sqlSession = DataSource.getInstance().openSession();
 		ReplyMapper mapper = sqlSession.getMapper(ReplyMapper.class);
-		int run = mapper.insertReply(rvo);
+		int run = mapper.insertReply(rvo) ;
 		
 		//결과값
 		Map<String, Object> result = new HashMap<>();       

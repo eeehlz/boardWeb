@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.yedam.common.InsertDataControl;
 import com.yedam.control.AddBoardControl;
 import com.yedam.control.AddFormControl;
 import com.yedam.control.AddMemberControl;
@@ -17,11 +18,13 @@ import com.yedam.control.AddReplyControl;
 import com.yedam.control.AjaxControl;
 import com.yedam.control.BoardControl;
 import com.yedam.control.BoardListControl;
+import com.yedam.control.CalendarControl;
 import com.yedam.control.ChartControl;
 import com.yedam.control.ChartData;
 import com.yedam.control.Control;
 import com.yedam.control.DataControl;
 import com.yedam.control.DataTableControl;
+import com.yedam.control.FullDataControl;
 import com.yedam.control.LoginControl;
 import com.yedam.control.LogoutControl;
 import com.yedam.control.MainControl;
@@ -78,10 +81,13 @@ public class FrontController extends HttpServlet {
 		map.put("/getReplyCnt.do", new ReplyCount());
 		//차트
 		map.put("/chart.do", new ChartControl());
-		map.put("/chartData.do", new ChartData());
-		
+		map.put("/chartData.do", new ChartData());		
 		//datatable 권한.
 		map.put("/datatable.do", new DataTableControl());
+		//캘린더
+		map.put("/full.do", new CalendarControl());
+		map.put("/fullData.do", new FullDataControl()); //조회
+		map.put("/insertData.do", new InsertDataControl()); //등록
 	}
 
 	@Override
