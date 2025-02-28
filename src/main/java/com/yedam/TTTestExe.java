@@ -14,10 +14,10 @@ public class TTTestExe {
 
 		BoardMapper mapper = sqlSession.getMapper(BoardMapper.class);
 
-		SearchVO searchVO = new SearchVO(1, "T", "첫번");
+		SearchVO search = new SearchVO(1, "T", "첫번");
 
 	
-		int row = mapper.getTotalCount(searchVO);
-		System.out.println("건수: " + row);
+//		int row = mapper.getTotalCount(search);
+//		System.out.println("건수: " + row);
 	}	
 }

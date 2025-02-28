@@ -17,8 +17,8 @@ import lombok.ToString;
  * 입사일자(2020-02-04)
  * 급여(300, 350)
  */
-@Getter
 @Setter
+@Getter
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
@@ -29,10 +29,7 @@ public class Employee { // tbl_employees
 	private Date hireDate; // hire_date
 	private int salary; // salary
 
-//	// 생성자.
-//	public Employee() {
-//	}
-
+	// 생성자.
 	public Employee(int empNo, String empName, String telNo) {
 		this.empNo = empNo;
 		this.empName = empName;
@@ -60,46 +57,5 @@ public class Employee { // tbl_employees
 		// 1001 홍길동 234-1234 250
 		return empNo + " " + empName + "  " + telNo + " " + salary;
 	}
-
-//	// getter, setter
-//	public int getEmpNo() {
-//		return empNo;
-//	}
-//
-//	public void setEmpNo(int empNo) {
-//		this.empNo = empNo;
-//	}
-//
-//	public String getEmpName() {
-//		return empName;
-//	}
-//
-//	public void setEmpName(String empName) {
-//		this.empName = empName;
-//	}
-//
-//	public String getTelNo() {
-//		return telNo;
-//	}
-//
-//	public void setTelNo(String telNo) {
-//		this.telNo = telNo;
-//	}
-//
-//	public Date getHireDate() {
-//		return hireDate;
-//	}
-//
-//	public void setHireDate(Date hireDate) {
-//		this.hireDate = hireDate;
-//	}
-//
-//	public int getSalary() {
-//		return salary;
-//	}
-//
-//	public void setSalary(int salary) {
-//		this.salary = salary;
-//	}
 
 }

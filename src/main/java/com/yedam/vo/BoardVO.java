@@ -5,7 +5,7 @@ import java.util.Date;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-
+// lombok을 활용.
 
 @Getter
 @Setter
@@ -19,6 +19,4 @@ public class BoardVO { // tbl_board
 	private Date writeDate;
 	private int viewCnt;
 	private String img;
-
-	
 }

@@ -13,34 +13,31 @@ import com.yedam.vo.BoardVO;
  */
 public class BoardDAO extends DAO {
 
-	// 페이징의 처리를 위한 실체 데이터.
+	// 페이징의 처리를 위한 실체데이터.
 	public int getTotalCount(SearchVO search) {
 		String sql = "select count(1) from tbl_board";
 		if (search.getSearchCondition().equals("T")) {
-			sql += "          where title like '%'||?||'%' ";
+			sql += "           where title like '%'||?||'%' ";
 		} else if (search.getSearchCondition().equals("W")) {
-			sql += "          where writer like '%'||?||'%' ";
+			sql += "           where writer like '%'||?||'%' ";
 		} else if (search.getSearchCondition().equals("TW")) {
-			sql += "          where title like '%'||?||'%' or writer like '%'||?||'%' ";
+			sql += "           where title like '%'||?||'%' or writer like '%'||?||'%' ";
 		}
 		try {
 			psmt = getConnect().prepareStatement(sql);
 			int cnt = 1;
-			if (search.getSearchCondition().equals("T")) { // 제목 검색.
+			if (search.getSearchCondition().equals("T")) { // 제목검색.
 				psmt.setString(cnt++, search.getKeyword());
-			} else if (search.getSearchCondition().equals("W")) { // 작성자 검색.
+			} else if (search.getSearchCondition().equals("W")) { // 작성자검색.
 				psmt.setString(cnt++, search.getKeyword());
 			} else if (search.getSearchCondition().equals("TW")) { // 제목, 작성자 검색.
 				psmt.setString(cnt++, search.getKeyword());
 				psmt.setString(cnt++, search.getKeyword());
 			}
-//			psmt.setInt(cnt++, search.getPage()); // 페이지.
-//			psmt.setInt(cnt++, search.getPage()); // 페이지.
 			rs = psmt.executeQuery();
 			if (rs.next()) {
-				return rs.getInt(1); // count (1) 값.
+				return rs.getInt(1); // count(1) 값.
 			}
-
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -52,13 +49,12 @@ public class BoardDAO extends DAO {
 	// 글조회수 증가.
 	public void updateCount(int boardNo) {
 		String sql = "update tbl_board" //
-				   + "   set    view_cnt = view_cnt + 1" //
-				   + "   where board_no = ?";
+				+ "   set    view_cnt = view_cnt + 1" //
+				+ "   where board_no = ?";
 		try {
 			psmt = getConnect().prepareStatement(sql);
 			psmt.setInt(1, boardNo);
 			psmt.executeUpdate(); // 쿼리실행.
-
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -68,13 +64,20 @@ public class BoardDAO extends DAO {
 
 	// 상세조회. 글번호 => 전체정보 반환.
 	public BoardVO getBoard(int boardNo) {
-		String sql = "select board_no" + "		     ,title" + "          ,content" + "          ,writer"
-				+ "          ,write_date" + "          ,view_cnt" + "	   from tbl_board" + "     where board_no = ?";
+		String sql = "select board_no" //
+				+ "         ,title" //
+				+ "         ,content" //
+				+ "         ,writer" //
+				+ "         ,write_date" //
+				+ "         ,view_cnt" //
+				+ "         ,img" //
+				+ "   from tbl_board" //
+				+ "   where board_no = ?";
 		try {
 			psmt = getConnect().prepareStatement(sql);
-			psmt.setInt(1, boardNo);
+			psmt.setInt(1, boardNo); //
 			rs = psmt.executeQuery();
-
+			// 조회결과 존재하면...
 			if (rs.next()) {
 				BoardVO board = new BoardVO();
 				board.setBoardNo(rs.getInt("board_no"));
@@ -83,6 +86,7 @@ public class BoardDAO extends DAO {
 				board.setWriter(rs.getString("writer"));
 				board.setWriteDate(rs.getDate("write_date"));
 				board.setViewCnt(rs.getInt("view_cnt"));
+				board.setImg(rs.getString("img"));
 				// 결과반환.
 				return board;
 			}
@@ -91,31 +95,33 @@ public class BoardDAO extends DAO {
 		} finally {
 			disConnect(); // 정상실행이거나 예외발생이나 반드시 실행할 코드.
 		}
-		return null;
+		return null; // 조회결과 없음.
 	} // end of getBoard.
 
 	// 조회()
 	public List<BoardVO> selectBoard(SearchVO search) {
 		List<BoardVO> boardList = new ArrayList<>();
-		String qry = "select tbl_b. * " + "from (select rownum rn, tbl_a. * "
-				+ "      from(select board_no, title, content, writer, write_date, view_cnt "
-				+ "           from tbl_board ";
+		String qry = "select tbl_b.* " //
+				+ "from (select rownum rn, tbl_a.* " //
+				+ "      from (select board_no, title, content, writer, write_date, view_cnt " //
+				+ "            from tbl_board "; //
 		if (search.getSearchCondition().equals("T")) {
-			qry += "          where title like '%'||?||'%' ";
+			qry += "           where title like '%'||?||'%' ";
 		} else if (search.getSearchCondition().equals("W")) {
-			qry += "          where writer like '%'||?||'%' ";
+			qry += "           where writer like '%'||?||'%' ";
 		} else if (search.getSearchCondition().equals("TW")) {
-			qry += "          where title like '%'||?||'%' or writer like '%'||?||'%' ";
+			qry += "           where title like '%'||?||'%' or writer like '%'||?||'%' ";
 		}
-		qry += "         order by board_no desc) tbl_a) tbl_b " + "where tbl_b.rn >= (? - 1 )* 5 + 1 "
+		qry += "            order by board_no desc) tbl_a) tbl_b " //
+				+ "where tbl_b.rn >= (? - 1 )* 5 + 1 " //
 				+ "and   tbl_b.rn <= ? * 5";
 		try {
 			psmt = getConnect().prepareStatement(qry);
 			// 조건.
 			int cnt = 1;
-			if (search.getSearchCondition().equals("T")) { // 제목 검색.
+			if (search.getSearchCondition().equals("T")) { // 제목검색.
 				psmt.setString(cnt++, search.getKeyword());
-			} else if (search.getSearchCondition().equals("W")) { // 작성자 검색.
+			} else if (search.getSearchCondition().equals("W")) { // 작성자검색.
 				psmt.setString(cnt++, search.getKeyword());
 			} else if (search.getSearchCondition().equals("TW")) { // 제목, 작성자 검색.
 				psmt.setString(cnt++, search.getKeyword());
@@ -147,8 +153,8 @@ public class BoardDAO extends DAO {
 
 	// 추가
 	public boolean insertBoard(BoardVO board) {
-		String sql = "insert into tbl_board (board_no, title, content, writer, img)"
-				+ "    values(board_seq.nextval,?,?,?,?)";
+		String sql = "insert into tbl_board (board_no, title, content, writer, img) " //
+				+ "   values(board_seq.nextval,?,?,?,?)";
 		try {
 			psmt = getConnect().prepareStatement(sql);
 			psmt.setString(1, board.getTitle());
@@ -160,30 +166,28 @@ public class BoardDAO extends DAO {
 			if (r == 1) {
 				return true; // 정상 등록.
 			}
-			return false;
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
 			disConnect(); // 정상실행이거나 예외발생이나 반드시 실행할 코드.
 		}
-		return false;
+		return false; // 비정상 처리.
 	}
 
 	// 수정
 	public boolean updateBoard(BoardVO board) {
-		System.out.println(board.toString());
-		String sql = "update tbl_board " + "set	title = ?" + "		, content = ?" + "where board_no = ?";
+		String sql = "update tbl_board " //
+				+ "set    title = ? " //
+				+ "      ,content = ? " //
+				+ "where board_no = ?";
 		try {
 			psmt = getConnect().prepareStatement(sql);
 			psmt.setString(1, board.getTitle());
 			psmt.setString(2, board.getContent());
 			psmt.setInt(3, board.getBoardNo());
-			psmt.executeUpdate(); // 쿼리실행.
-
-			int r = psmt.executeUpdate();
+			int r = psmt.executeUpdate(); // 쿼리실행.
 			if (r > 0)
-				return true;
-
+				return true; // 정상수정.
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -198,7 +202,7 @@ public class BoardDAO extends DAO {
 		try {
 			psmt = getConnect().prepareStatement(query);
 			psmt.setInt(1, boardNo); // ?에 값 지정.
-			int r = psmt.executeUpdate();
+			int r = psmt.executeUpdate(); // 쿼리 실행.
 			if (r > 0) {
 				return true;
 			}
@@ -208,5 +212,5 @@ public class BoardDAO extends DAO {
 			disConnect(); // 정상실행이거나 예외발생이나 반드시 실행할 코드.
 		}
 		return false;
-	}
+	} // end of deleteBoard.
 }

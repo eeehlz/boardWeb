@@ -17,26 +17,26 @@ public class DAO {
 	PreparedStatement psmt;
 	ResultSet rs;
 
-	//세션해제.
+	// 세션해제.
 	void disConnect() {
 		try {
-		if (conn != null) {
+			if (conn != null) {
 				conn.close();
-		}
-		if(rs != null) {
-			rs.close();
-		}
-		if(psmt != null) {
-			psmt.close();
-		}
-		if(stmt != null) {
-			stmt.close();
-		}
-			} catch (SQLException e) {
-				e.printStackTrace();
+			}
+			if (rs != null) {
+				rs.close();
+			}
+			if (psmt != null) {
+				psmt.close();
+			}
+			if (stmt != null) {
+				stmt.close();
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
 	}
-	
+
 	// 오라클 접속 세션연결.
 	Connection getConnect() {
 		String url = "jdbc:oracle:thin:@localhost:1521:xe";// 오라클DB의 접속정보.

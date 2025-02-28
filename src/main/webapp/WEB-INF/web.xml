@@ -17,7 +17,7 @@
 		<servlet-name>Tiles Dispatch Servlet</servlet-name>
 		<url-pattern>*.tiles</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
 		<servlet-name>front</servlet-name>
 		<servlet-class>com.yedam.FrontController</servlet-class>

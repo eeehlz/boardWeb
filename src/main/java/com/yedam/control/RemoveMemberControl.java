@@ -15,19 +15,18 @@ public class RemoveMemberControl implements Control {
 		// TODO Auto-generated method stub
 		String id = req.getParameter("mid");
 		
-		// MemberDAO에 삭제. boolean deleteMember(String, id)
+		//MemberDAO에 삭제. boolean // method=> deleteMember(String id);
 		MemberDAO mdao = new MemberDAO();
-		// 정상삭제: true, 처리예외: false;
+		// 정상삭제 : true, 처리예외: false;
 		boolean isOk = mdao.deleteMember(id);
 		
 		if(isOk) {
-			//{"retCode": "OK"}
+			// {"retCode": "OK"} << JSON코드 반영
 			resp.getWriter().print("{\"retCode\": \"OK\"}");
-		} else {
-			//{"retCode": "NG"}
+		}else {
+			// {"retCode": "NG"}
 			resp.getWriter().print("{\"retCode\": \"NG\"}");
 		}
-		
 	}
 
 }
