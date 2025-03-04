@@ -21,9 +21,10 @@ public class ModifyControl implements Control {
 		// 수정화면 open.
 		String bno = req.getParameter("bno");
 
-		//BoardDAO bdao = new BoardDAO();
+//		BoardDAO bdao = new BoardDAO();
 		SqlSession sqlSession = DataSource.getInstance().openSession();
 		BoardMapper mapper = sqlSession.getMapper(BoardMapper.class);
+
 		BoardVO board = mapper.getBoard(Integer.parseInt(bno)); // 문자열 "14" -> int 14 변경.
 
 		// 세션아이디 vs. 글작성 아이디 .
@@ -40,7 +41,7 @@ public class ModifyControl implements Control {
 
 		// 요청정보의 attribute활용.
 		req.setAttribute("board", board); //
-		req.getRequestDispatcher("/WEB-INF/views/modifyBoard.jsp").forward(req, resp);
+		req.getRequestDispatcher("board/modifyBoard.tiles").forward(req, resp);
 
 	}
 

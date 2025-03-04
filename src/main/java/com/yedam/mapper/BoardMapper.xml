@@ -2,70 +2,72 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
 <mapper namespace="com.yedam.mapper.BoardMapper">
-	<select id="getTotalCount" resultType="int"
-		parameterType="com.yedam.common.SearchVO">
-		select count(1) from tbl_board
-	</select>
-
-	<update id="updateCount" parameterType="int">
-		update tbl_board
-		set
-		view_cnt = view_cnt +1
-		where board_no = #{boardNo}
-	</update>
-
-	<select id="getBoard" resultType="board" parameterType="int">
-		select *
-		from tbl_board
-		where board_no = #{boardNo}
-	</select>
-
-	<select id="selectBoard"
-		parameterType="com.yedam.common.SearchVO">
-	select tbl_b.*
-	  from (select rownum rn, tbl_a.*
-		 from (select board_no,
-		   title, content, writer, write_date, view_cnt
-		      from tbl_board
-		<choose>
-			<when test="searchCondition == 'T'. toString()">
-				where title like '%'||#{keyWord}||'%'
-			</when>
-			<when test="searchCondition == 'W'. toString()">
-				where writer like '%'||#{keyWord}||'%'
-			</when>
-			<when test="searchCondition == 'TW'. toString()">
-				where title like '%'||#{keyWord}||'%' or writer like
-				'%'||#{keyWord}||'%'
-			</when>
-		</choose>
-		order by board_no desc) tbl_a) tbl_b
-		where tbl_b.rn >= (#{page} - 1 )* 5 + 1
-		<![CDATA[
-		and tbl_b.rn <= #{page} * 5
-		]]>
-	</select>
-	
-	<insert id="insertBoard"
-		parameterType="board">
-		insert into tbl_board (board_no, title, content, writer, img)
-		  values(board_seq.nextval,#{title},#{content},#{writer},#{img})
-	</insert>
-	
-	<delete id="deleteBoard"
-		parameterType="int">
-		delete from tbl_board where board_no = #{boardNo}
-	</delete>
-	
-	<update id="updateBoard"
-		parameterType="board">
-		update tbl_board
-		set    title = #{title}
-		    ,content = #{content}
-	  where board_no = #{boardNo}
-	</update>
-	
-
+  <select id="getTotalCount" parameterType="com.yedam.common.SearchVO" resultType="int">
+    select count(1) from tbl_board
+    <choose>
+      <when test="searchCondition == 'T'.toString() ">
+        where title like '%'||#{keyword}||'%'
+      </when>
+      <when test="searchCondition == 'W'.toString() ">
+        where writer like '%'||#{keyword}||'%'
+      </when>
+      <when test="searchCondition == 'TW'.toString() ">
+        where writer like '%'||#{keyword}||'%' or title like '%'||#{keyword}||'%'
+      </when>
+    </choose>
+  </select>
+  
+  <update id="updateCount" parameterType="int">
+    update tbl_board
+    set    view_cnt = view_cnt + 1
+    where board_no = #{boardNo}
+  </update>
+  
+  <select id="getBoard" resultType="board" parameterType="int">
+    select *
+    from   tbl_board
+    where board_no = #{boardNo}
+  </select>
+  
+  <select id="selectBoard" parameterType="com.yedam.common.SearchVO" resultType="board">
+    select tbl_b.*
+    from (select rownum rn, tbl_a.*
+          from (select board_no, title, content, writer, write_date, view_cnt
+                from tbl_board
+            <choose>
+              <when test="searchCondition == 'T'.toString() ">
+                where title like '%'||#{keyword}||'%'
+              </when>
+              <when test="searchCondition == 'W'.toString() ">
+                where writer like '%'||#{keyword}||'%'
+              </when>
+              <when test="searchCondition == 'TW'.toString() ">
+                where writer like '%'||#{keyword}||'%' or title like '%'||#{keyword}||'%'
+              </when>
+            </choose>
+                order by board_no desc) tbl_a) tbl_b
+    where tbl_b.rn >= (#{page} - 1 )* 5 + 1 
+    <![CDATA[
+    and   tbl_b.rn <= #{page} * 5
+    ]]>
+  </select>
+  
+  <insert id="insertBoard" parameterType="board">
+    insert into tbl_board (board_no, title, content, writer, img)
+    values(board_seq.nextval,#{title},#{content},#{writer},#{img})
+  </insert>
+  
+  <update id="updateBoard" parameterType="board">
+    update tbl_board
+    set    title = #{title}
+          ,content = #{content}
+    where board_no = #{boardNo}
+  </update>
+  
+  <delete id="deleteBoard" parameterType="int">
+    delete from tbl_board where board_no = #{boardNo}
+  </delete>
+  
 </mapper>
-   

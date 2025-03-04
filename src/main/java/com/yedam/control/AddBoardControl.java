@@ -41,16 +41,17 @@ public class AddBoardControl implements Control {
 
 		// 매개값으로 활용.
 		BoardVO bvo = new BoardVO();
-		SqlSession sqlSession = DataSource.getInstance().openSession();
-		BoardMapper mapper = sqlSession.getMapper(BoardMapper.class);
 		bvo.setTitle(title);
- 	    bvo.setContent(content);
+		bvo.setContent(content);
 		bvo.setWriter(writer);
 		bvo.setImg(img); // 추가한 img컬럼.
 
-		//BoardDAO bdao = new BoardDAO();
+//		BoardDAO bdao = new BoardDAO();
+		SqlSession sqlSession = DataSource.getInstance().openSession();
+		BoardMapper mapper = sqlSession.getMapper(BoardMapper.class);
+
 		if (mapper.insertBoard(bvo) == 1) {
-			sqlSession.commit(true);
+			sqlSession.commit(true);// 커밋.
 			// forward(매개값 활용) vs. redirect(매개값을 전달못함)
 			resp.sendRedirect("boardList.do");
 		} else {

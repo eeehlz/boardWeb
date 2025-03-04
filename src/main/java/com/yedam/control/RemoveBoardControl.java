@@ -12,8 +12,6 @@ import com.yedam.common.DataSource;
 import com.yedam.dao.BoardDAO;
 import com.yedam.mapper.BoardMapper;
 
-import oracle.jdbc.OracleConnection.CommitOption;
-
 public class RemoveBoardControl implements Control {
 
 	@Override
@@ -21,11 +19,11 @@ public class RemoveBoardControl implements Control {
 		// ?bno=22
 		String bno = req.getParameter("bno");
 
-		//BoardDAO bdao = new BoardDAO();
+//		BoardDAO bdao = new BoardDAO();
 		SqlSession sqlSession = DataSource.getInstance().openSession();
 		BoardMapper mapper = sqlSession.getMapper(BoardMapper.class);
-		if (mapper.deleteBoard(Integer.parseInt(bno))==1) {
-			sqlSession.commit(true);
+
+		if (mapper.deleteBoard(Integer.parseInt(bno)) == 1) {
 			resp.sendRedirect("boardList.do");
 		} else {
 			System.out.println("처리실패.");

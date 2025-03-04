@@ -9,12 +9,12 @@ import com.yedam.mapper.BoardMapper;
 
 public class TTTestExe {
 	public static void main(String[] args) {
-		SqlSessionFactory sqlSessionFactory = DataSource.getInstance();
-		SqlSession sqlSession = sqlSessionFactory.openSession();
-
-		BoardMapper mapper = sqlSession.getMapper(BoardMapper.class);
-
-		SearchVO search = new SearchVO(1, "T", "첫번");
+//		SqlSessionFactory sqlSessionFactory = DataSource.getInstance();
+//		SqlSession sqlSession = sqlSessionFactory.openSession();
+//
+//		BoardMapper mapper = sqlSession.getMapper(BoardMapper.class);
+//
+//		SearchVO search = new SearchVO(1, "T", "첫번");
 
 	
 //		int row = mapper.getTotalCount(search);

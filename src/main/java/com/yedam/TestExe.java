@@ -9,14 +9,14 @@ import com.yedam.mapper.BoardMapper;
 
 public class TestExe {
 	public static void main(String[] args) {
-		SqlSessionFactory sqlSessionFactory = DataSource.getInstance();
-		SqlSession sqlSession = sqlSessionFactory.openSession();
-		
-		BoardMapper mapper = sqlSession.getMapper(BoardMapper.class);
-		SearchVO search = new SearchVO(1, "1", "내일");
-		int row = mapper.getTotalCount(search);
-		
-		System.out.println("건수: "+ row);
+//		SqlSessionFactory sqlSessionFactory = DataSource.getInstance();
+//		SqlSession sqlSession = sqlSessionFactory.openSession();
+//		
+//		BoardMapper mapper = sqlSession.getMapper(BoardMapper.class);
+//		SearchVO search = new SearchVO(1, "1", "내일");
+//		int row = mapper.getTotalCount(search);
+//		
+//		System.out.println("건수: "+ row);
 				
 	}
 }

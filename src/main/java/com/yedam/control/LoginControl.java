@@ -33,16 +33,17 @@ public class LoginControl implements Control {
 				// 세션객체에 로그인 아이디를 저장.
 				HttpSession session = req.getSession();
 				session.setAttribute("loginId", id); // attribute활용.
-				//일반 사용자 or 관리자
-				if(mvo.getResponsibility().equals("Admin")) {
-				resp.sendRedirect("memberList.do");
-			} else { 
-				resp.sendRedirect("boardList.do");
+				// 일반사용자 or 관리자
+				if (mvo.getResponsibility().equals("Admin")) {
+					resp.sendRedirect("memberList.do");
+				} else {
+					resp.sendRedirect("boardList.do");
+				}
+
+			} else { // 로그인 실패.
+				System.out.println("id, pw 확인.");
 			}
-		}else {// 로그인 실패.
-			System.out.println("id, pw 확인.");
 		}
 	}
 
-}
 }

@@ -1,8 +1,6 @@
 package com.yedam.common;
 
 import java.io.IOException;
-import java.util.List;
-import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -10,28 +8,28 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.ibatis.session.SqlSession;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.yedam.control.Control;
 import com.yedam.mapper.ReplyMapper;
 
-public class FullData implements Control {
+public class AddData implements Control {
 
 	@Override
 	public void exec(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		resp.setContentType("text/json;charset=utf-8");
+		String title = req.getParameter("title");
+		String start = req.getParameter("start");
+		String end = req.getParameter("end");
 
-		// DB
-		SqlSession sqlSession = DataSource.getInstance().openSession();
+		SqlSession sqlSession = DataSource.getInstance().openSession(true);
 		ReplyMapper mapper = sqlSession.getMapper(ReplyMapper.class);
-		List<Map<String, Object>> list = mapper.fullData();
 
-		// 웹.출.
-		Gson gson = new GsonBuilder().setPrettyPrinting().create();
-		String json = gson.toJson(list);
-
-		resp.getWriter().print(json);
+		int cnt = mapper.insertEvent(title, start, end);
+		if (cnt == 1) {
+//		    {"retCode": "OK"}
+			resp.getWriter().print("{\"retCode\": \"OK\"}");
+		} else {
+			resp.getWriter().print("{\"retCode\": \"NG\"}");
+		}
 	}
 
 }

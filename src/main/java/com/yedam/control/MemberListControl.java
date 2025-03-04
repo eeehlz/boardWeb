@@ -10,10 +10,8 @@ public class MemberListControl implements Control {
 
 	@Override
 	public void exec(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		
+		// TODO Auto-generated method stub
 		req.getRequestDispatcher("admin/memberList.tiles").forward(req, resp);
-		
-	
 	}
 
 }

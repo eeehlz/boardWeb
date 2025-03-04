@@ -29,7 +29,9 @@ public class DataTableControl implements Control {
 		SqlSession sqlSession = DataSource.getInstance().openSession();
 		ReplyMapper mapper = sqlSession.getMapper(ReplyMapper.class);
 		List<ReplyVO> list = mapper.replyListAll(Integer.parseInt(bno));
-		List<List<String>> dataAll = new ArrayList<>();
+
+		List<List<String>> dataAll = new ArrayList<List<String>>();
+
 		for (ReplyVO reply : list) {
 			List<String> dataList = new ArrayList<>();
 			dataList.add("" + reply.getReplyNo());
@@ -39,15 +41,16 @@ public class DataTableControl implements Control {
 
 			dataAll.add(dataList);
 		}
-		// {"data": [ ["","","",""], [], [] ... [] ]}
+		// {"data": [ ["","","",""], [], [] ... [] ]
 		Map<String, Object> data = new HashMap<>();
-		data.put("data", list);
-		
+		data.put("data", dataAll);
+
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
 		String json = gson.toJson(data);
-		
+
 		System.out.println(json);
 		resp.getWriter().print(json);
+
 	}
 
 }

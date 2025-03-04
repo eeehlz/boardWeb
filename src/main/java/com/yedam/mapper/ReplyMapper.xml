@@ -2,61 +2,58 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-  
+
 <mapper namespace="com.yedam.mapper.ReplyMapper">
+
+	<delete id="deleteEvent">
+		delete from tbl_calendar
+		where title = #{title}
+		and start_date = #{start}
+		and end_date = #{end}
+	</delete>
+
+	<insert id="insertEvent2" parameterType="map">
+		insert into tbl_calendar(title, start_date, end_date)
+		values(#{title}, #{start}, #{end})
+	</insert>
 
 	<insert id="insertEvent">
 		insert into tbl_calendar(title, start_date, end_date)
 		values(#{title}, #{start}, #{end})
 	</insert>
-	
+
 	<select id="fullData" resultType="map">
-	select title as "title"
- 		  ,start_date as "start"	
-		  ,end_date as "end"	
-		from tbl_calendar 
+		select title as "title"
+		,start_date as "start"
+		,end_date as "end"
+		from tbl_calendar
 	</select>
-	
+
 	<select id="replyListAll" resultType="reply" parameterType="int">
-	select * 
-	from tbl_reply
-	where board_no = #{bno}
+		select *
+		from tbl_reply
+		where board_no = #{boardNo}
 	</select>
-	
-  <insert id="insertReply" parameterType="reply">
-	<selectKey keyProperty="replyNo" resultType="int" order="BEFORE">
-	select reply_seq.nextval from dual
-	</selectKey>	
-	insert into tbl_reply (reply_no, reply, replyer, board_no)
-	 values(#{replyNo}, #{reply}, #{replyer}, #{boardNo})	
-	</insert>
-	
-	<select id="replyCount" parameterType="reply" resultType="int">
-	select count(1) from tbl_reply where board_no = #{boardNo}
-	</select>
-	
-	
-	<select id="selectReply" parameterType="reply">
-	select * from tbl_reply
-	where reply_no = #{replyNo}
-	</select>
-	
-	
-	<select id="replyList" parameterType="reply">
+
+	<select id="replyList" resultType="reply" parameterType="search">
 		select tbl_a.*
-		from (select /*+ INDEX_DESC (r pk_reply) */ 
-        rownum rn, reply_no, reply, replyer, board_no, reply_date 
-        from tbl_reply r 
-        where board_no = #{boardNo}) tbl_a 
-        where tbl_a.rn > (#{page} - 1) * 5 
-       <![CDATA[
-       	and tbl_a.rn <= #{page} * 5
-       	]]>
+		from (select /*+ INDEX_DESC (r pk_reply) */
+		rownum rn, reply_no, reply, replyer, board_no, reply_date
+		from tbl_reply r
+		where board_no = #{boardNo}) tbl_a
+		where tbl_a.rn > (#{page} - 1) * 5
+	<![CDATA[
+	and   tbl_a.rn <= #{page} * 5  
+	]]>
 	</select>
-	
-	<delete id="deleteReply" parameterType="reply" >
-	delete from tbl_reply where reply_no = #{board_no}
-	</delete>
-	
+
+	<insert id="insertReply" parameterType="reply">
+		<selectKey keyProperty="replyNo" resultType="int"
+			order="BEFORE">
+			select reply_seq.nextval from dual
+		</selectKey>
+		insert into tbl_reply(reply_no, reply, replyer, board_no)
+		values(#{replyNo}, #{reply}, #{replyer}, #{boardNo})
+	</insert>
+
 </mapper>
-   

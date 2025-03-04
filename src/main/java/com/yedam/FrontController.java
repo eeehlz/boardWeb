@@ -10,7 +10,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.yedam.common.InsertDataControl;
+import com.yedam.common.AddData;
+import com.yedam.common.ApiControl;
+import com.yedam.common.DataTableControl;
+import com.yedam.common.FullCalendarControl;
+import com.yedam.common.FullData;
+import com.yedam.common.MapControl;
+import com.yedam.common.RemoveData;
 import com.yedam.control.AddBoardControl;
 import com.yedam.control.AddFormControl;
 import com.yedam.control.AddMemberControl;
@@ -18,13 +24,10 @@ import com.yedam.control.AddReplyControl;
 import com.yedam.control.AjaxControl;
 import com.yedam.control.BoardControl;
 import com.yedam.control.BoardListControl;
-import com.yedam.control.CalendarControl;
 import com.yedam.control.ChartControl;
 import com.yedam.control.ChartData;
 import com.yedam.control.Control;
 import com.yedam.control.DataControl;
-import com.yedam.control.DataTableControl;
-import com.yedam.control.FullDataControl;
 import com.yedam.control.LoginControl;
 import com.yedam.control.LogoutControl;
 import com.yedam.control.MainControl;
@@ -66,28 +69,35 @@ public class FrontController extends HttpServlet {
 		map.put("/loginForm.do", new LoginControl()); // 화면.
 		map.put("/login.do", new LoginControl()); // 로그인처리.
 		map.put("/logout.do", new LogoutControl()); // 로그아웃.
-		
-		map.put("/memberList.do", new MemberListControl()); //회원목록
+
+		map.put("/memberList.do", new MemberListControl()); // 회원목록.
 		map.put("/testAjax.do", new AjaxControl());
 		map.put("/testData.do", new DataControl());
-		//회원삭제
+		// 회원삭제.
 		map.put("/removeMember.do", new RemoveMemberControl());
-		//회원등록
+		// 회원등록.
 		map.put("/addMember.do", new AddMemberControl());
-		//댓글관련.
-		map.put("/replyList.do", new ReplyListControl());//목록
-		map.put("/addReply.do", new AddReplyControl());//등록
-		map.put("/removeReply.do", new RemoveReplyControl());//삭제
+
+		// 댓글관련.
+		map.put("/replyList.do", new ReplyListControl()); // 목록.
+		map.put("/addReply.do", new AddReplyControl()); // 등록.
+		map.put("/removeReply.do", new RemoveReplyControl()); // 삭제.
 		map.put("/getReplyCnt.do", new ReplyCount());
-		//차트
+
+		// 챠트.
 		map.put("/chart.do", new ChartControl());
-		map.put("/chartData.do", new ChartData());		
-		//datatable 권한.
+		map.put("/chartData.do", new ChartData());
+
+		// datatable 관련.
 		map.put("/datatable.do", new DataTableControl());
-		//캘린더
-		map.put("/full.do", new CalendarControl());
-		map.put("/fullData.do", new FullDataControl()); //조회
-		map.put("/insertData.do", new InsertDataControl()); //등록
+
+		map.put("/full.do", new FullCalendarControl());
+		map.put("/fullData.do", new FullData()); // 조회.
+		map.put("/addData.do", new AddData()); // 등록.
+		map.put("/removeData.do", new RemoveData()); // 삭제.
+		
+		map.put("/api.do", new ApiControl());		
+		map.put("/map.do", new MapControl());
 	}
 
 	@Override

@@ -22,41 +22,49 @@ public class AddReplyControl implements Control {
 	@Override
 	public void exec(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		resp.setContentType("text/json;charset=utf-8");
+
 		// 댓글내용, 작성자, 원본글번호
 		String reply = req.getParameter("reply");
 		String replyer = req.getParameter("replyer");
 		String bno = req.getParameter("bno");
-		
-		//매개값
+
+		// 매개값.
 		ReplyVO rvo = new ReplyVO();
 		rvo.setBoardNo(Integer.parseInt(bno));
 		rvo.setReply(reply);
 		rvo.setReplyer(replyer);
 		rvo.setReplyDate(new Date());
+		// Fri Feb 28 14:14:17 KST 2025
+		// Feb 28, 2025, 2:16:32 PM
+
 		// DB 반영.
-		//ReplyDAO rdao = new ReplyDAO();
+//		ReplyDAO rdao = new ReplyDAO();
+//		boolean run = rdao.insertReply(rvo);
 		SqlSession sqlSession = DataSource.getInstance().openSession();
 		ReplyMapper mapper = sqlSession.getMapper(ReplyMapper.class);
-		int run = mapper.insertReply(rvo) ;
-		
-		//결과값
-		Map<String, Object> result = new HashMap<>();       
-		
-		if(run>0) {
-			//{"retCode":"OK"}
-			//resp.getWriter().print("{\"retCode\": \"OK\"}");	
+		boolean run = mapper.insertReply(rvo) == 1;
+
+		// 결과값.
+		Map<String, Object> result = new HashMap<>();
+
+		if (run) {
+			// {"retCode": "OK"}
+//			resp.getWriter().print("{\"retCode\": \"OK\"}");
 			result.put("retCode", "OK");
 			result.put("retVal", rvo);
 			sqlSession.commit(true);
+
 		} else {
-			//resp.getWriter().print("{\"retCode\": \"NG\"}");
+//			resp.getWriter().print("{\"retCode\": \"NG\"}");
 			result.put("retCode", "NG");
 		}
-		//json  생성
+
+		// json생성.
 		Gson gson = new GsonBuilder().create();
 		String json = gson.toJson(result);
-		
+
 		resp.getWriter().print(json);
+
 	}
 
 }

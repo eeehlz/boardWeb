@@ -6,23 +6,21 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.ibatis.session.SqlSession;
-
-import com.yedam.common.DataSource;
-import com.yedam.mapper.ReplyMapper;
+import com.yedam.dao.ReplyDAO;
 
 public class ReplyCount implements Control {
 
 	@Override
-	public void exec(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException { 
+	public void exec(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		// TODO Auto-generated method stub
 		String bno = req.getParameter("bno");
-		
-		//ReplyDAO rdao = new ReplyDAO();
-		SqlSession sqlSession = DataSource.getInstance().openSession();
-		ReplyMapper mapper = sqlSession.getMapper(ReplyMapper.class);
-		int totalCnt = mapper.replyCount(Integer.parseInt(bno));		
-		//json반환{"totalCnt": 30}
-		resp.getWriter().print("{\"totalCnt\": "+ totalCnt +"}");
+
+		ReplyDAO rdao = new ReplyDAO();
+		int totalCnt = rdao.replyCount(Integer.parseInt(bno));
+
+		// {"totalCnt": 30}
+		resp.getWriter().print("{\"totalCnt\": " + totalCnt + "}");
+
 	}
 
 }

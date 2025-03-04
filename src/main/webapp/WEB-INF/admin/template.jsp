@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles" %>
+<%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles" %>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -41,17 +41,17 @@
             </ul>
         </nav>
         <div id="layoutSidenav">
- 			<!-- header -->
- 			<tiles:insertAttribute name="header"/>
-             <div id="layoutSidenav_content">
+            <!-- header... -->
+            <tiles:insertAttribute name="header" />
+            <div id="layoutSidenav_content">
                 <main>
                     <div class="container-fluid px-4">
-                    <!-- body  -->
-                    <tiles:insertAttribute name="body"/>
+                        <!-- body... -->
+                        <tiles:insertAttribute name="body" />
                     </div>
                 </main>
-                <!-- footer -->
-                <tiles:insertAttribute name="footer"/>
+                <!-- footer... -->
+                <tiles:insertAttribute name="footer" />
             </div>
         </div>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
